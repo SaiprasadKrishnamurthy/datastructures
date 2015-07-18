@@ -38,4 +38,13 @@ class Stack[T: Manifest](capacity: Int = 1000) {
     while (head <= tail) f(pop())
   }
 
+  def searchFor(function: T => Boolean): Option[T] = {
+    def _search(currTail: Int): Option[T] = {
+      if (currTail >= head && function(arr(currTail))) Some(arr(currTail))
+      else if (currTail >= head && !function(arr(currTail))) _search(currTail - 1)
+      else None
+    }
+    _search(tail)
+  }
+
 }

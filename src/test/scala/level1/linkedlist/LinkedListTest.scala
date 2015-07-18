@@ -66,4 +66,13 @@ class LinkedListTest extends FlatSpec with ShouldMatchers {
     linkedList.eachReverse(buffer += _)
     buffer.mkString("") should be("210")
   }
+
+  "searchFor" should "search for the first element matching the specified predicate" in {
+    val linkedList = new level1.linkedlist.LinkedList[Int]
+    linkedList.insertLast(1)
+    linkedList.insertLast(2)
+    linkedList.insertLast(3)
+    linkedList.insertLast(14)
+    linkedList.searchFor(_ % 2 == 0) should be(Option(2))
+  }
 }

@@ -1,6 +1,6 @@
 package level1.queue
 
-import org.scalatest.{ShouldMatchers, FlatSpec}
+import org.scalatest.{FlatSpec, ShouldMatchers}
 
 import scala.collection.mutable.ListBuffer
 
@@ -34,6 +34,15 @@ class QueueTest extends FlatSpec with ShouldMatchers {
     val buffer = new ListBuffer[Int]
     queue.each(buffer += _)
     buffer.mkString(",") should be("1,2,3")
+  }
+
+  "searchFor" should "search for the first element matching the specified predicate" in {
+    val queue = new Queue[Int]
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+    queue.enqueue(14)
+    queue.searchFor(_ % 2 == 0) should be(Option(2))
   }
 
 }

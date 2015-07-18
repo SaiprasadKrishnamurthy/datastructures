@@ -36,4 +36,13 @@ class StackTest extends FlatSpec with ShouldMatchers {
     buffer.mkString(",") should be("3,2,1")
   }
 
+  "searchFor" should "search for the first element matching the specified predicate" in {
+    val stack = new Stack[Int]
+    stack.push(1)
+    stack.push(2)
+    stack.push(3)
+    stack.push(14)
+    stack.searchFor(_ % 2 == 0) should be(Option(14))
+  }
+
 }

@@ -8,8 +8,9 @@ class Node[T](var data: T, var next: Node[T], var prev: Node[T])
  * Created by sai on 18/07/2015.
  */
 class LinkedList[T] {
-
   var _head: Node[T] = _
+
+
   var _tail: Node[T] = _
   var size: Int = 0
 
@@ -47,6 +48,15 @@ class LinkedList[T] {
       else stringConvert(currNode.next, acc + f(currNode.data))
     }
     stringConvert(_head, "")
+  }
+
+  def searchFor(function: T => Boolean): Option[T] = {
+    def _search(currNode: Node[T]): Option[T] = {
+      if (currNode != null && function(currNode.data)) Some(currNode.data)
+      else if (currNode != null && !function(currNode.data)) _search(currNode.next)
+      else None
+    }
+    _search(_head)
   }
 
   def each(function: T => Unit): Unit = {

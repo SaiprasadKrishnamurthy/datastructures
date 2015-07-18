@@ -41,4 +41,13 @@ class Queue[T: Manifest](capacity: Int = 1000) {
     while(head <= tail) f(dequeue())
   }
 
+  def searchFor(function: T => Boolean): Option[T] = {
+    def _search(currHead: Int): Option[T] = {
+      if (currHead <= tail && function(arr(currHead))) Some(arr(currHead))
+      else if (currHead <= tail && !function(arr(currHead))) _search(currHead + 1)
+      else None
+    }
+    _search(head)
+  }
+
 }
