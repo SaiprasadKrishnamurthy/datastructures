@@ -24,7 +24,7 @@ and of course learn functional programming and scala.
  * B-Trees
  * Graphs
 
-## A Simple Time complexity table ##
+## A Simple Time complexity table (Worst case) ##
 DATA STRUCTURE|SEARCH | INSERT | DELETE
 --------------|-------|--------|--------
 Arrays        | O(n)  | O(n)   | O(n) 
