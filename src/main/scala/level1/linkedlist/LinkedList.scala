@@ -1,0 +1,66 @@
+package level1.linkedlist
+
+
+class Node[T](var data: T, var next: Node[T], var prev: Node[T])
+
+/**
+ * A Simple Doubly Linked List
+ * Created by sai on 18/07/2015.
+ */
+class LinkedList[T] {
+
+  var _head: Node[T] = _
+  var _tail: Node[T] = _
+  var size: Int = 0
+
+  def insertFirst(data: T) = {
+    if (_head == null) {
+      _head = new Node(data, null, null)
+      size = 1
+      _tail = _head
+    } else {
+      val curr = new Node(data, _head, null)
+      _head.prev = curr
+      _head = curr
+      size += 1
+    }
+  }
+
+  def insertLast(data: T) = {
+    if (_tail == null) {
+      insertFirst(data)
+    } else {
+      val curr = new Node(data, null, _tail)
+      _tail.next = curr
+      _tail = curr
+      size += 1
+    }
+  }
+
+  def head = if (_head == null) throw new NoSuchElementException else _head.data
+
+  def tail = if (_tail == null) throw new NoSuchElementException else _tail.data
+
+  def asString(f: T => String) = {
+    def stringConvert(currNode: Node[T], acc: String): String = {
+      if (currNode == null) acc
+      else stringConvert(currNode.next, acc + f(currNode.data))
+    }
+    stringConvert(_head, "")
+  }
+
+  def each(function: T => Unit): Unit = {
+    _each(function, _head, node => node.next)
+  }
+
+  def eachReverse(function: T => Unit): Unit = {
+    _each(function, _tail, node => node.prev)
+  }
+
+  private[this] def _each(function: T => Unit, currNode: Node[T], nodeTraversalFunction: Node[T] => Node[T]): Unit = {
+    if (currNode != null) {
+      function(currNode.data)
+      _each(function, nodeTraversalFunction(currNode), nodeTraversalFunction)
+    }
+  }
+}
