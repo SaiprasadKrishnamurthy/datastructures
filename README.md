@@ -24,6 +24,16 @@ and of course lean functional programming and scala.
  * B-Trees
  * Graphs
 
+## A Simple Time complexity table ##
+DATA STRUCTURE|SEARCH | INSERT | DELETE
+--------------|-------|--------|--------
+Arrays        | O(n)  | o(n)   | o(n) 
+ArrayLists    | O(n)  | o(n)   | o(n) 
+LinkedLists   | O(n)  | o(1)   | o(1)
+
+
+
+
 
 
 
