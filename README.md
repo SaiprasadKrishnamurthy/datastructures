@@ -3,7 +3,7 @@
 A Simple implementation of DataStructures using scala.
 
 I'm broadly focusing on simple data structures (their concepts) and implementing them in Scala.
-This is not to implement a complete collections API as this is completely reinventing the wheel.
+The intent is not to implement a complete collections API as this is completely reinventing the wheel.
 Rather the intent is to learn the foundational data structures, their strengths and weaknesses, their asymptotic analysis
 and of course learn functional programming and scala.
 :-)
