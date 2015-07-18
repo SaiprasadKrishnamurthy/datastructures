@@ -8,19 +8,19 @@ Rather the intent is to learn the foundational data structures, their strengths 
 and of course learn functional programming and scala.
 :-)
 
-## Simple Data Structures  ##
+## Simple Data Structures (Level 1)  ##
 * Arrays
 * ArrayLists
 * Linked Lists
 * Stacks
 * Queues
 
-## Intermediate Data Structures  ##
+## Intermediate Data Structures (Level 2) ##
 * Dictionaries (HashTables)
 * Binary Trees
 * Heaps
 
-## Advanced Data structures ##
+## Advanced Data structures (Level 3)##
  * B-Trees
  * Graphs
 
