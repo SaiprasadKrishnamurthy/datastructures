@@ -17,7 +17,7 @@ and of course learn functional programming and scala.
 
 ## Intermediate Data Structures (Level 2) ##
 * Dictionaries (HashTables)
-* Binary Trees
+* Binary Search Trees
 * Heaps
 
 ## Advanced Data structures (Level 3)##
