@@ -1,4 +1,4 @@
-package level1.bst
+package level2.bst
 
 import scala.collection.mutable.ListBuffer
 
