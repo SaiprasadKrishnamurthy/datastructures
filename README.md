@@ -32,12 +32,12 @@ and of course using functional programming in scala.
 ## A Simple Time complexity table (Worst case) ##
 DATA STRUCTURE|SEARCH | INSERT | DELETE | NOTES
 --------------|-------|--------|---------------
-Arrays        | O(n)  | O(n)   | O(n)   |
-ArrayLists    | O(n)  | O(n)   | O(n)   |
-LinkedLists   | O(n)  | O(1)   | O(1)   |
-Queues        | O(n)  | O(1)   | O(1)   |
-Stacks        | O(n)  | O(1)   | O(1)   |
-BST (Vanilla) | O(n)  | O(n)   | O(n)   | No balancing techniques employed.
+Arrays        | O(n)  | O(n)   | O(n)   ||
+ArrayLists    | O(n)  | O(n)   | O(n)   ||
+LinkedLists   | O(n)  | O(1)   | O(1)   ||
+Queues        | O(n)  | O(1)   | O(1)   ||
+Stacks        | O(n)  | O(1)   | O(1)   ||
+BST (Vanilla) | O(n)  | O(n)   | O(n)   | No balancing techniques employed.|
 
 
 
