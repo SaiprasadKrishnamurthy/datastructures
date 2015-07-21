@@ -30,7 +30,7 @@ and of course using functional programming in scala.
  
 
 ## A Simple Time complexity table (Worst case) ##
-DATA STRUCTURE|SEARCH | INSERT | DELETE | NOTES
+DATA STRUCTURE|SEARCH | INSERT | DELETE | NOTES|
 --------------|-------|--------|---------------
 Arrays        | O(n)  | O(n)   | O(n)   ||
 ArrayLists    | O(n)  | O(n)   | O(n)   ||
