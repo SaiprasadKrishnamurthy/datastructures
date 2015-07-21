@@ -162,5 +162,33 @@ class BSTTest extends FlatSpec with ShouldMatchers {
     bst.collectPostorder should be(List(10, 32, 25, 78, 40))
   }
 
+  "insert" should "insert a single element as root for an empty BST" in {
 
+    val bst = new BST[Int]
+
+    /*
+      40
+    */
+    bst.insert(40)
+    bst.collectInorder should be(List(40))
+  }
+
+  "insertAll" should "insert all the elements in the right locations in a BST" in {
+
+    val bst = new BST[Int]
+
+    /*
+       40
+      / \
+     25  78
+    /\
+   10 32
+      /\
+    30 34
+       /
+      33
+   */
+    bst.insertAll(List(32, 10, 25, 78, 40, 30, 34, 33))
+    bst.collectInorder should be(List(10, 25, 30, 32, 33, 34, 40, 78))
+  }
 }

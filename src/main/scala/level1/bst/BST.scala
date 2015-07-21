@@ -6,9 +6,9 @@ import scala.collection.mutable.ListBuffer
  * Created by sai on 20/07/2015.
  */
 
-case class BSTNode[T <: Int](data: T, leftChild: Option[BSTNode[T]], rightChild: Option[BSTNode[T]])
+case class BSTNode[T <: Int](var data: T, var leftChild: Option[BSTNode[T]], var rightChild: Option[BSTNode[T]])
 
-class BST[T <: Int](root: BSTNode[T]) {
+class BST[T <: Int](var root: BSTNode[T] = null) {
 
 
   def inorderTraversal(f: T => Unit): Unit = {
@@ -60,7 +60,6 @@ class BST[T <: Int](root: BSTNode[T]) {
   }
 
   def find(n: T) = {
-
     def _find(currNode: Option[BSTNode[T]]): Option[T] = {
       if (currNode.isDefined && currNode.get.data.compareTo(n) == 0) Some(currNode.get.data)
       else if (currNode.isDefined && currNode.get.data.compareTo(n) < 0) _find(currNode.get.rightChild)
@@ -70,7 +69,25 @@ class BST[T <: Int](root: BSTNode[T]) {
     _find(Some(root))
   }
 
+  def insert(element: T) = {
+    if (root == null) root = new BSTNode(element, None, None)
+    else {
+      def _insert(parentNode: Option[BSTNode[T]], currNode: Option[BSTNode[T]], isLeft: Boolean): Unit = {
+        if (currNode.isDefined && element < currNode.get.data) _insert(currNode, currNode.get.leftChild, true)
+        if (!currNode.isDefined && isLeft) parentNode.get.leftChild = Some(BSTNode(element, None, None))
+        if (currNode.isDefined && element > currNode.get.data) _insert(currNode, currNode.get.rightChild, false)
+        if (!currNode.isDefined && !isLeft) parentNode.get.rightChild = Some(BSTNode(element, None, None))
+      }
+      _insert(Some(root), Some(root), false)
+    }
+  }
+
+  def insertAll(elements: List[T]) = elements foreach insert
+
   override def toString = {
     root.toString
   }
 }
+
+
+
