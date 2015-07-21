@@ -10,7 +10,6 @@ case class BSTNode[T <: Int](var data: T, var leftChild: Option[BSTNode[T]], var
 
 class BST[T <: Int](var root: BSTNode[T] = null) {
 
-
   def inorderTraversal(f: T => Unit): Unit = {
 
     def inorder(currNode: Option[BSTNode[T]]): Unit = {
@@ -59,15 +58,19 @@ class BST[T <: Int](var root: BSTNode[T] = null) {
     buffer.toList
   }
 
-  def find(n: T) = {
-    def _find(currNode: Option[BSTNode[T]]): Option[T] = {
-      if (currNode.isDefined && currNode.get.data.compareTo(n) == 0) Some(currNode.get.data)
-      else if (currNode.isDefined && currNode.get.data.compareTo(n) < 0) _find(currNode.get.rightChild)
-      else if (currNode.isDefined && currNode.get.data.compareTo(n) > 0) _find(currNode.get.leftChild)
-      else None
-    }
-    _find(Some(root))
+  private[this] def _find(n: T, currNode: Option[BSTNode[T]]): Option[BSTNode[T]] = {
+    if (currNode.isDefined && currNode.get.data.compareTo(n) == 0) currNode
+    else if (currNode.isDefined && currNode.get.data.compareTo(n) < 0) _find(n, currNode.get.rightChild)
+    else if (currNode.isDefined && currNode.get.data.compareTo(n) > 0) _find(n, currNode.get.leftChild)
+    else None
   }
+
+  def find(n: T) =
+    _find(n, Some(root)) match {
+      case Some(bstNode) => Some(bstNode.data)
+      case _ => None
+    }
+
 
   def insert(element: T) = {
     if (root == null) root = new BSTNode(element, None, None)
@@ -83,6 +86,60 @@ class BST[T <: Int](var root: BSTNode[T] = null) {
   }
 
   def insertAll(elements: List[T]) = elements foreach insert
+
+  def delete(element: T) = {
+    def parentAndChild(parent: Option[BSTNode[T]], currNode: Option[BSTNode[T]], isLeftChild: Boolean): (Option[BSTNode[T]], Option[BSTNode[T]], Boolean) = {
+      if (currNode.isDefined) {
+        if (element < currNode.get.data) parentAndChild(currNode, currNode.get.leftChild, true)
+        else if (element > currNode.get.data) parentAndChild(currNode, currNode.get.rightChild, false)
+        else (parent, currNode, isLeftChild)
+      }
+      else (None, None, false)
+    }
+    val parentAndChildNode = parentAndChild(Some(root), Some(root), false)
+
+    val parent = parentAndChildNode._1
+    val nodeToBeDeleted = parentAndChildNode._2
+    val leftChildOf = parentAndChildNode._3
+
+    // Non existent
+    if (nodeToBeDeleted == None) false
+    else if (isLeaf(nodeToBeDeleted) && leftChildOf) {
+      parent.get.leftChild = None;
+      true;
+    }
+    // Leaf
+    else if (isLeaf(nodeToBeDeleted) && !leftChildOf) {
+      parent.get.rightChild = None;
+      true;
+    }
+    // Node with a single child
+    else if (!(nodeToBeDeleted.get.leftChild != None && nodeToBeDeleted.get.rightChild != None)) {
+      val successor = List(nodeToBeDeleted.get.leftChild, nodeToBeDeleted.get.rightChild).filter(_.isDefined)(0)
+      if (leftChildOf) parent.get.leftChild = successor else parent.get.rightChild = successor
+      true;
+    }
+    // Node with two children
+    else {
+      val immediateRight = nodeToBeDeleted.get.rightChild
+      val successorsCurrentParent = parentOfLeftMostLeaf(immediateRight)
+      val successor = successorsCurrentParent.leftChild
+      successorsCurrentParent.leftChild = None
+      if (leftChildOf) parent.get.leftChild = successor else parent.get.rightChild = successor
+      successor.get.rightChild = nodeToBeDeleted.get.rightChild
+      successor.get.leftChild = nodeToBeDeleted.get.leftChild
+      true;
+    }
+  }
+
+  def parentOfLeftMostLeaf(currNode: Option[BSTNode[T]]): BSTNode[T] = {
+    if (currNode.isDefined && currNode.get.leftChild.isDefined && !currNode.get.leftChild.get.leftChild.isDefined) currNode.get
+    else parentOfLeftMostLeaf(currNode.get.leftChild)
+  }
+
+  private[this] def isLeaf(nodeToBeDeleted: Option[BSTNode[T]]): Boolean = {
+    nodeToBeDeleted.get.leftChild == None && nodeToBeDeleted.get.rightChild == None
+  }
 
   override def toString = {
     root.toString

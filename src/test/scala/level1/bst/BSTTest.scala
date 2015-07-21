@@ -26,7 +26,7 @@ class BSTTest extends FlatSpec with ShouldMatchers {
     val node_12 = BSTNode(12, None, None)
     val node_11 = BSTNode(11, Some(node_9), Some(node_12))
     val bst = new BST[Int](node_11)
-    bst.find(10) should be(Option(10))
+    bst.find(10) should be(Some(10))
   }
 
   it should ("return None for a non existent element ") in {
@@ -188,7 +188,150 @@ class BSTTest extends FlatSpec with ShouldMatchers {
        /
       33
    */
-    bst.insertAll(List(32, 10, 25, 78, 40, 30, 34, 33))
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33))
     bst.collectInorder should be(List(10, 25, 30, 32, 33, 34, 40, 78))
   }
+
+  "delete" should "delete an existing element found in the leaf node" in {
+
+    /*
+              78
+             /
+            25
+          /   \
+         10   40
+              /
+             32
+            / \
+          30  34
+              /
+             33
+     */
+    val bst = new BST[Int]
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33))
+    bst.delete(33) should be(true)
+    bst.collectInorder should be(List(10, 25, 30, 32, 34, 40, 78))
+  }
+
+  "delete" should "NOT delete a non-existing element in the BST" in {
+
+    /*
+              78
+             /
+            25
+          /   \
+         10   40
+              /
+             32
+            / \
+          30  34
+              /
+             33
+     */
+    val bst = new BST[Int]
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33))
+    bst.delete(133) should be(false)
+    bst.collectInorder should be(List(10, 25, 30, 32, 33, 34, 40, 78))
+  }
+
+  "delete" should "delete an existing element found in the node with one child" in {
+
+    /*
+              78
+             /
+            25
+          /   \
+         10   40
+              /
+             32
+            / \
+          30  34
+              /
+             33
+     */
+    val bst = new BST[Int]
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33))
+    bst.delete(34) should be(true)
+    bst.collectInorder should be(List(10, 25, 30, 32, 33, 40, 78))
+  }
+
+  "delete" should "delete an existing element found in the node with both left and right subtree" in {
+
+    /*
+              78                                      78
+             /                                        /
+            25                On delete(32)          25
+          /   \            ------------>            /  \
+         10   40                                   10  40
+              /                                       /
+             32                                      33
+            / \                                     / \
+          30  34                                   30 34
+              /
+             33
+
+
+
+
+
+
+     */
+    val bst = new BST[Int]
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33))
+    bst.delete(32) should be(true)
+    bst.collectInorder should be(List(10, 25, 30, 33, 34, 40, 78))
+
+  }
+
+  "delete" should "delete an existing element found in the node with both left and right subtree for a more dense/deep BST" in {
+
+    /*
+             Before Delete
+             -------------
+              78
+             /
+            25
+          /   \
+         10   40¡
+              /
+             32
+            /  \
+          30   34
+             /   \
+            33   38
+                /  \
+               37  39
+              /
+            36
+           /
+          35
+
+          After Delete
+          --------------
+             78
+             /
+            30
+          /   \
+         10   40
+              /
+             32
+               \
+               34
+             /   \
+            33   38
+                /  \
+               37  39
+              /
+            36
+           /
+          35
+     */
+    val bst = new BST[Int]
+    bst.insertAll(List(78, 25, 40, 10, 32, 30, 34, 33, 38, 37, 39, 36, 35))
+    bst.delete(25) should be(true)
+    bst.collectInorder should be(List(10, 30, 32, 33, 34, 35, 36, 37, 38, 39, 40, 78))
+
+  }
+
+
 }
