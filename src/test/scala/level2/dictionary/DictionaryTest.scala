@@ -21,8 +21,14 @@ class DictionaryTest extends FlatSpec with ShouldMatchers {
   "put" should "replace the value for an existing key in the dictionary " in {
     val dictionary = new Dictionary[Int, String]()
     (1 to 50).foreach(i => dictionary.put(i, i.toString))
-    dictionary.put(34,"Thirty four")
+    dictionary.put(34, "Thirty four")
     dictionary.get(34) should be(Some("Thirty four"))
   }
 
+  "remove" should "remove the an existing entry in the dictionary " in {
+    val dictionary = new Dictionary[Int, String]()
+    (1 to 50).foreach(i => dictionary.put(i, i.toString))
+    dictionary.remove(34) should be(true)
+    dictionary.get(34) should be(None)
+  }
 }

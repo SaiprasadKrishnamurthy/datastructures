@@ -10,10 +10,11 @@ class Node[T](var data: T, var next: Node[T], var prev: Node[T])
  * Created by sai on 18/07/2015.
  */
 class LinkedList[T] {
-
   private var _head: Node[T] = _
 
+
   private var _tail: Node[T] = _
+
   var size: Int = 0
 
   def insertFirst(data: T) = {
@@ -69,13 +70,38 @@ class LinkedList[T] {
     _each(function, _tail, node => node.prev)
   }
 
-  // It's ok
-  def headNode = _head
-
   private[this] def _each(function: T => Unit, currNode: Node[T], nodeTraversalFunction: Node[T] => Node[T]): Unit = {
     if (currNode != null) {
       function(currNode.data)
       _each(function, nodeTraversalFunction(currNode), nodeTraversalFunction)
+    }
+  }
+
+  def delete(predicate: T => Boolean) = {
+
+    def _delete(parent: Node[T], current: Node[T], deleted: Boolean): Boolean = {
+      if (current == null || deleted) deleted
+      else if (!deleted && predicate(current.data)) {
+        parent.next = current.next
+        if (current.next != null) current.next.prev = parent
+        current.next = null
+        current.prev = null
+        size -= 1
+        _delete(current, current.next, true)
+      }
+      else _delete(current, current.next, false)
+    }
+
+    if (_head.next != null) {
+      _delete(_head, _head, false)
+    } else {
+      if (predicate(_head.data)) {
+        _head = null
+        size -= 1
+        true
+      } else {
+        false
+      }
     }
   }
 }
