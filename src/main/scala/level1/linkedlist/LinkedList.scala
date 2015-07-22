@@ -1,5 +1,7 @@
 package level1.linkedlist
 
+import level2.dictionary.Dictionary
+
 
 class Node[T](var data: T, var next: Node[T], var prev: Node[T])
 
@@ -8,10 +10,10 @@ class Node[T](var data: T, var next: Node[T], var prev: Node[T])
  * Created by sai on 18/07/2015.
  */
 class LinkedList[T] {
-  var _head: Node[T] = _
 
+  private var _head: Node[T] = _
 
-  var _tail: Node[T] = _
+  private var _tail: Node[T] = _
   var size: Int = 0
 
   def insertFirst(data: T) = {
@@ -66,6 +68,9 @@ class LinkedList[T] {
   def eachReverse(function: T => Unit): Unit = {
     _each(function, _tail, node => node.prev)
   }
+
+  // It's ok
+  def headNode = _head
 
   private[this] def _each(function: T => Unit, currNode: Node[T], nodeTraversalFunction: Node[T] => Node[T]): Unit = {
     if (currNode != null) {
